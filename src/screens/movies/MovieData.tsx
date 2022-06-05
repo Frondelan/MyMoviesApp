@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {ScrollView, View, Text, StyleSheet} from 'react-native';
+import {
+  ScrollView,
+  SafeAreaView,
+  StatusBar,
+  View,
+  Text,
+  StyleSheet,
+} from 'react-native';
 import {getMovieByIdApi, getRelatedMoviesApi} from '../../api/api';
 import {map} from 'lodash';
 import MovieImage from '../../components/MovieImage';
@@ -31,24 +38,27 @@ export default function MovieData(props) {
     return null;
   }
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <MovieImage movie={movie} />
-      <View>
-        <MovieDescription movie={movie} />
-      </View>
-      <View style={styles.relatedMoviesContainer}>
-        <Text style={styles.relatedTopic}>RELATED MOVIES</Text>
-        <View style={styles.containerRelated}>
-          {map(related, (relateds, index) => (
-            <RenderMovies
-              key={index}
-              movie={relateds}
-              navigation={navigation}
-            />
-          ))}
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" />
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <MovieImage movie={movie} />
+        <View>
+          <MovieDescription movie={movie} />
         </View>
-      </View>
-    </ScrollView>
+        <View style={styles.relatedMoviesContainer}>
+          <Text style={styles.relatedTopic}>RELATED MOVIES</Text>
+          <View style={styles.containerRelated}>
+            {map(related, (relateds, index) => (
+              <RenderMovies
+                key={index}
+                movie={relateds}
+                navigation={navigation}
+              />
+            ))}
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
