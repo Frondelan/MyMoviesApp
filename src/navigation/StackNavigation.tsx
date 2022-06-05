@@ -6,6 +6,7 @@ import Splash from '../screens/Splash';
 import Login from '../screens/Login';
 import Movies from '../screens/movies/Movies';
 import MovieData from '../screens/movies/MovieData';
+import SearchMovie from '../screens/movies/SearchMovie';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,13 +28,22 @@ export default function StackNavigation() {
           name="movies"
           component={Movies}
           options={{
-            title: 'MOVIES HOME',
+            title: 'MyMovieApp',
+            headerTintColor: '#fff',
+            headerStyle: {
+              backgroundColor: '#14C38E',
+            },
           }}
         />
         <Stack.Screen
           name="movieData"
           component={MovieData}
-          options={{title: 'MOVIE DATA '}}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="search"
+          component={SearchMovie}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

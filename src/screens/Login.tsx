@@ -9,13 +9,13 @@ import {
 } from 'react-native';
 import {validateEmail} from '../utils/validations';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AnimationComponent from '../components/AnimationComponent';
 
 export default function Login(props) {
   const {navigation} = props;
   const [formData, setFormData] = useState({});
   const [formError, setFormError] = useState({});
   const [vatError, setVatError] = useState({});
-  console.log('ESTOY EN LOGIN');
 
   //   {
   //     "email": "eve.holt@reqres.in",
@@ -24,7 +24,6 @@ export default function Login(props) {
 
   function postAction() {
     let errors = {};
-
     if (!formData.email || !formData.password) {
       setVatError({...vatError, mensaje: 'No pueden haber campos vacio'});
       if (!formData.email) errors.email = true;
@@ -63,17 +62,21 @@ export default function Login(props) {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require('../assets/logo.png')} />
+      <AnimationComponent width={200} height={200} />
       <Text style={styles.errorMess}>{vatError.mensaje}</Text>
       <TextInput
         style={[styles.input, formError.email && styles.error]}
         placeholder="email"
+        placeholderTextColor="#000"
+        underlineColorAndroid={'transparent'}
         onChange={e => setFormData({...formData, email: e.nativeEvent.text})}
       />
       <TextInput
         style={[styles.input, formError.password && styles.error]}
         placeholder="password"
+        placeholderTextColor="#000"
         secureTextEntry={true}
+        underlineColorAndroid={'transparent'}
         onChange={e => setFormData({...formData, password: e.nativeEvent.text})}
       />
       <TouchableOpacity style={styles.btn} onPress={postAction}>
@@ -86,7 +89,7 @@ export default function Login(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -108,10 +111,12 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 0.5,
     padding: 10,
+    backgroundColor: '#fff',
+    color: '#fff',
   },
   btn: {
     marginTop: 15,
-    backgroundColor: '#646FD4',
+    backgroundColor: '#14C38E',
     width: '85%',
     height: 40,
     justifyContent: 'center',
@@ -125,5 +130,6 @@ const styles = StyleSheet.create({
   error: {
     borderColor: '#D61C4E',
     borderWidth: 2,
+    color: '#000',
   },
 });
