@@ -14,12 +14,15 @@ import RenderMovies from '../../components/RenderMovies';
 export default function SearchMovie(props) {
   const {route, navigation} = props;
   const {params} = route;
-  const [movies, setMovies] = useState(null);
-
+  const [movies, setMovies] = useState([]);
+  const [textM, setTextM] = useState('');
   useEffect(() => {
     searchMoviesApi(params).then(response => {
       setMovies(response.results);
     });
+    setTimeout(() => {
+      setTextM(' There are no results for this search');
+    }, 500);
   }, []);
 
   return (
@@ -28,11 +31,17 @@ export default function SearchMovie(props) {
       <View>
         <Text style={styles.topic}>{params}</Text>
       </View>
-      <ScrollView style={styles.mainContainer}>
+      <ScrollView style={styles.mainContainer2}>
         <View style={styles.container}>
-          {map(movies, (movie, index) => (
-            <RenderMovies key={index} movie={movie} navigation={navigation} />
-          ))}
+          {movies.length > 0 ? (
+            map(movies, (movie, index) => (
+              <RenderMovies key={index} movie={movie} navigation={navigation} />
+            ))
+          ) : (
+            <View style={styles.erroMessage}>
+              <Text style={styles.errorText}>{textM}</Text>
+            </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -41,6 +50,10 @@ export default function SearchMovie(props) {
 
 const styles = StyleSheet.create({
   mainContainer: {
+    flex: 1,
+    backgroundColor: '#141E61',
+  },
+  mainContainer2: {
     backgroundColor: '#141E61',
   },
   topic: {
@@ -62,5 +75,18 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
+    backgroundColor: '#141E61',
+  },
+  erroMessage: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 150,
+  },
+  errorText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 100,
+    color: '#14C38E',
   },
 });

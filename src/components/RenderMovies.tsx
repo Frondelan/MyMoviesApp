@@ -11,7 +11,9 @@ export default function RenderMovies(props) {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => goMovie()}>
+    <TouchableWithoutFeedback
+      onPress={() => goMovie()}
+      style={styles.containerMain}>
       <View style={styles.movie}>
         {poster_path ? (
           <>
@@ -39,6 +41,9 @@ export default function RenderMovies(props) {
 }
 
 const styles = StyleSheet.create({
+  containerMain: {
+    backgroundColor: '#141E61',
+  },
   movie: {
     width: '100%',
     height: 300,

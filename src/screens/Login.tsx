@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Image,
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
@@ -25,15 +24,18 @@ export default function Login(props) {
   function postAction() {
     let errors = {};
     if (!formData.email || !formData.password) {
-      setVatError({...vatError, mensaje: 'No pueden haber campos vacio'});
+      setVatError({...vatError, mensaje: 'No empty spaces'});
       if (!formData.email) errors.email = true;
       if (!formData.password) errors.password = true;
     } else if (!validateEmail(formData.email)) {
       errors.email = true;
-      setVatError({...vatError, mensaje: 'Error con email'});
+      setVatError({...vatError, mensaje: 'Email error'});
     } else if (formData.password.length < 6) {
       errors.password = true;
-      setVatError({...vatError, mensaje: 'Mínimo 6 digitos'});
+      setVatError({
+        ...vatError,
+        mensaje: 'Password must be more than 5 digits',
+      });
     } else {
       setVatError('');
       const options = {
@@ -49,11 +51,9 @@ export default function Login(props) {
           if (response.token) {
             const data = JSON.stringify(response);
             AsyncStorage.setItem('authToken', data);
-            console.log('TOKEN GUARDADO EN ASYN STORAGE');
             navigation.replace('movies');
           } else {
-            console.log('NO SE PUDO GUARDAR DATO');
-            setVatError({...vatError, mensaje: 'Usuario no identificado'});
+            setVatError({...vatError, mensaje: 'Wrong username or password'});
           }
         });
     }
@@ -78,6 +78,7 @@ export default function Login(props) {
         secureTextEntry={true}
         underlineColorAndroid={'transparent'}
         onChange={e => setFormData({...formData, password: e.nativeEvent.text})}
+        onSubmitEditing={() => postAction()}
       />
       <TouchableOpacity style={styles.btn} onPress={postAction}>
         <Text style={styles.btnText}>Login</Text>
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     padding: 10,
     backgroundColor: '#fff',
-    color: '#fff',
+    color: '#000',
   },
   btn: {
     marginTop: 15,

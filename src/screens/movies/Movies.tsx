@@ -48,6 +48,7 @@ export default function Movies(props) {
           placeholderTextColor="#000"
           underlineColorAndroid="#000"
           onChangeText={e => setSearch(e)}
+          onSubmitEditing={() => goSearch()}
         />
         <TouchableOpacity style={styles.btnContainer} onPress={goSearch}>
           <Text>Search</Text>

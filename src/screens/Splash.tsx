@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StatusBar, StyleSheet} from 'react-native';
 import {LogBox} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AnimationComponent from '../components/AnimationComponent';
@@ -36,6 +36,7 @@ export default function Splash(props) {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
       <AnimationComponent width={300} height={300} />
     </View>
   );
