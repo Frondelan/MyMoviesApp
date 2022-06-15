@@ -1,34 +1,48 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {TouchableOpacity, View, Text, Image, StyleSheet} from 'react-native';
+import {Movie} from '../interfaces/moviesInterface';
 import {BASE_PATH_IMG} from '../utils/constants';
 
-export default function MovieList(props) {
-  const {title, overview, release_date, vote_average, poster_path} = props;
+interface Props {
+  movie: Movie;
+}
+
+export default function MovieList(props: Props) {
+  const {movie} = props;
+  const navigation = useNavigation();
 
   return (
-    <>
+    <TouchableOpacity
+      style={styles.containerAll}
+      activeOpacity={0.4}
+      onPress={() => navigation.push('movieData', movie.id)}>
       <Image
         style={styles.image}
-        source={{uri: `${BASE_PATH_IMG}/w500${poster_path}`}}
+        source={{uri: `${BASE_PATH_IMG}/w500${movie.poster_path}`}}
       />
       <View style={styles.textMov}>
-        <Text style={styles.textTitle}>{title}</Text>
+        <Text style={styles.textTitle}>{movie.title}</Text>
         <Text style={styles.textOverview}>
-          {overview.slice(0, 200)} {'...'}
+          {movie.overview.slice(0, 200)} {'...'}
         </Text>
-        <Text style={[styles.textDate, {color: '#14C38E'}]}>
+        <Text style={styles.textDate2}>
           Release date: {'\n'}
-          <Text style={styles.textDate}>{release_date}</Text>
+          <Text style={styles.textDate}>{movie.release_date}</Text>
         </Text>
-        <Text style={[styles.textDate, {color: '#14C38E'}]}>
+        <Text style={styles.textDate2}>
           Vote average: {'\n'}
-          <Text style={styles.textDate}>{vote_average}</Text>
+          <Text style={styles.textDate}>{movie.vote_average}</Text>
         </Text>
       </View>
-    </>
+    </TouchableOpacity>
   );
 }
 const styles = StyleSheet.create({
+  containerAll: {
+    flexDirection: 'row',
+    marginBottom: 15,
+  },
   image: {
     width: '47%',
     height: '100%',
@@ -56,6 +70,14 @@ const styles = StyleSheet.create({
     fontSize: 13,
     textAlign: 'left',
     color: '#fff',
+    fontWeight: 'bold',
+  },
+  textDate2: {
+    marginRight: 10,
+    marginTop: 10,
+    fontSize: 13,
+    textAlign: 'left',
+    color: '#14C38E',
     fontWeight: 'bold',
   },
 });

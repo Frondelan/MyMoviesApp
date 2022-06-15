@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   StatusBar,
@@ -7,53 +7,78 @@ import {
   ScrollView,
   SafeAreaView,
 } from 'react-native';
-import {map} from 'lodash';
-import {searchMoviesApi} from '../../api/api';
-import RenderMovies from '../../components/RenderMovies';
+import useSearch from '../../hooks/useSearch';
+import MovieList from '../../components/MovieList';
+import BackButton from '../../components/BackButton';
+import AnimationComponent from '../../components/AnimationComponent';
 
-export default function SearchMovie(props) {
-  const {route, navigation} = props;
-  const {params} = route;
-  const [movies, setMovies] = useState([]);
-  const [textM, setTextM] = useState('');
-  useEffect(() => {
-    searchMoviesApi(params).then(response => {
-      setMovies(response.results);
-    });
-    setTimeout(() => {
-      setTextM(' There are no results for this search');
-    }, 500);
-  }, []);
+export default function SearchMovie(props: any) {
+  const {route} = props;
 
+  const {isLoading, noData, searchMovies} = useSearch(route.params);
+
+  if (isLoading) {
+    return (
+      <View style={styles.indicator}>
+        <AnimationComponent imgName="loading" width={300} height={300} />
+      </View>
+    );
+  }
   return (
     <SafeAreaView style={styles.mainContainer}>
       <StatusBar barStyle="light-content" />
-      <View>
-        <Text style={styles.topic}>{params}</Text>
+      <View style={styles.header}>
+        <Text style={styles.topic}>{route.params}</Text>
       </View>
-      <ScrollView style={styles.mainContainer2}>
-        <View style={styles.container}>
-          {movies.length > 0 ? (
-            map(movies, (movie, index) => (
-              <RenderMovies key={index} movie={movie} navigation={navigation} />
-            ))
-          ) : (
-            <View style={styles.erroMessage}>
-              <Text style={styles.errorText}>{textM}</Text>
-            </View>
-          )}
+      {noData && (
+        <View style={styles.indicator2}>
+          <Text style={styles.noData}>
+            There are no results for this search
+          </Text>
+        </View>
+      )}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.containerRelated}>
+          {searchMovies?.map(value => (
+            <MovieList
+              key={value.id.toString() + value.vote_count.toString}
+              movie={value}
+            />
+          ))}
         </View>
       </ScrollView>
+      <BackButton />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  indicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#141E61',
+  },
+  indicator2: {
+    height: 500,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#141E61',
+  },
+  noData: {
+    color: '#14C38E',
+    fontSize: 19,
+    fontWeight: 'bold',
+  },
+
   mainContainer: {
     flex: 1,
     backgroundColor: '#141E61',
   },
-  mainContainer2: {
+  header: {
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#141E61',
   },
   topic: {
@@ -64,29 +89,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     marginTop: 5,
   },
-  input: {
-    width: '85%',
-    height: 40,
-    margin: 12,
-    borderWidth: 0.5,
-    padding: 10,
-  },
-  container: {
-    flex: 1,
+  containerRelated: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: '#141E61',
-  },
-  erroMessage: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 150,
-  },
-  errorText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 100,
-    color: '#14C38E',
   },
 });

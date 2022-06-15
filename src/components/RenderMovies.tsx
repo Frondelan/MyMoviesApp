@@ -1,55 +1,37 @@
 import React from 'react';
-import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
+import {Movie} from '../interfaces/moviesInterface';
 import MovieList from './MovieList';
 
-export default function RenderMovies(props) {
-  const {movie, navigation} = props;
-  const {id, poster_path, title, overview, release_date, vote_average} = movie;
+interface Props {
+  movie: Movie[];
+}
 
-  const goMovie = () => {
-    navigation.push('movieData', {id});
-  };
-
+export default function RenderMovies({movie}: Props) {
   return (
-    <TouchableWithoutFeedback
-      onPress={() => goMovie()}
-      style={styles.containerMain}>
+    <>
       <View style={styles.movie}>
-        {poster_path ? (
-          <>
-            <MovieList
-              title={title}
-              overview={overview}
-              release_date={release_date}
-              vote_average={vote_average}
-              poster_path={poster_path}
-            />
-          </>
-        ) : (
-          <>
-            <MovieList
-              title={title}
-              overview={overview}
-              release_date={release_date}
-              vote_average={vote_average}
-            />
-          </>
-        )}
+        <FlatList
+          initialNumToRender={7}
+          showsVerticalScrollIndicator={false}
+          data={movie}
+          renderItem={({item}: any) => <MovieList movie={item} />}
+          keyExtractor={item => item.id.toString()}
+          horizontal={false}
+        />
       </View>
-    </TouchableWithoutFeedback>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  containerMain: {
-    backgroundColor: '#141E61',
+  indicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   movie: {
-    width: '100%',
-    height: 300,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
     backgroundColor: '#141E61',
   },
 });

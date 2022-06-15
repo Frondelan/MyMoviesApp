@@ -1,110 +1,66 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
-  ScrollView,
   SafeAreaView,
-  TextInput,
   Text,
-  TouchableOpacity,
+  StatusBar,
+  Platform,
 } from 'react-native';
-import {map} from 'lodash';
-import {getPopularMoviesApi} from '../../api/api';
+import AnimationComponent from '../../components/AnimationComponent';
 import RenderMovies from '../../components/RenderMovies';
+import SearchComponent from '../../components/SearchComponent';
+import usePopular from '../../hooks/usePopular';
 
-export default function Movies(props) {
-  const {navigation} = props;
-  const [movies, setMovies] = useState(null);
-  const [search, setSearch] = useState('');
-  const [vatError, setVatError] = useState({});
+export default function Movies() {
+  const {isLoading, popular} = usePopular();
 
-  useEffect(() => {
-    getPopularMoviesApi().then(response => {
-      setMovies(response.results);
-    });
-  }, []);
-
-  useEffect(() => {
-    setVatError('');
-  }, [search]);
-
-  const goSearch = () => {
-    if (!search) {
-      setVatError({mensaje: 'No empty space'});
-    } else {
-      setVatError('');
-      if (search.length >= 1) {
-        navigation.push('search', search);
-      }
-    }
-  };
+  if (isLoading) {
+    return (
+      <View style={styles.indicator}>
+        <AnimationComponent imgName="loading" width={300} height={300} />
+      </View>
+    );
+  }
 
   return (
-    <SafeAreaView style={styles.containerS}>
-      <View style={styles.searchContainer}>
-        <TextInput
-          placeholder="Search movies"
-          style={[styles.input, vatError.mensaje && styles.error]}
-          placeholderTextColor="#000"
-          underlineColorAndroid="#000"
-          onChangeText={e => setSearch(e)}
-          onSubmitEditing={() => goSearch()}
-        />
-        <TouchableOpacity style={styles.btnContainer} onPress={goSearch}>
-          <Text>Search</Text>
-        </TouchableOpacity>
+    <SafeAreaView style={styles.containerT}>
+      <StatusBar barStyle="light-content" />
+      <View style={styles.header}>
+        <Text style={styles.headerTopic}>My Movie App</Text>
       </View>
-      <Text style={styles.textError}>{vatError.mensaje}</Text>
-
-      <ScrollView>
-        <View style={styles.container}>
-          {map(movies, (movie, index) => (
-            <RenderMovies key={index} movie={movie} navigation={navigation} />
-          ))}
-        </View>
-      </ScrollView>
+      <SearchComponent />
+      <View style={styles.containerMovies}>
+        <RenderMovies movie={popular} />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  searchContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 20,
-    marginBottom: 5,
-    marginTop: 5,
-  },
-  btnContainer: {
-    backgroundColor: '#3FC5F0',
-    height: 45,
-    padding: 15,
-    marginTop: 20,
-    width: '22%',
-  },
-  containerS: {
+  indicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#141E61',
   },
-  input: {
-    width: '72%',
-    height: 45,
-    marginTop: 20,
-    padding: 5,
-    fontSize: 16,
-    backgroundColor: '#fff',
-  },
-  container: {
+  containerT: {
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    backgroundColor: '#141E61',
   },
-  error: {
-    borderColor: '#D61C4E',
-    borderWidth: 3,
+  header: {
+    marginTop: 10,
+    height: Platform.OS === 'ios' ? 30 : 30,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  textError: {
-    marginLeft: 20,
-    color: '#fff',
+  headerTopic: {
+    color: '#14C38E',
+    fontSize: 23,
     fontWeight: 'bold',
+  },
+  containerMovies: {
+    flex: 1,
+    marginTop: 20,
   },
 });

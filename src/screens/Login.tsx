@@ -1,105 +1,65 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  StatusBar,
 } from 'react-native';
-import {validateEmail} from '../utils/validations';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import AnimationComponent from '../components/AnimationComponent';
+import useLogin from '../hooks/useLogin';
 
-export default function Login(props) {
-  const {navigation} = props;
-  const [formData, setFormData] = useState({});
-  const [formError, setFormError] = useState({});
-  const [vatError, setVatError] = useState({});
+export default function Login() {
+  const {postAction, setEmail, setPassword, error} = useLogin();
 
   //   {
-  //     "email": "eve.holt@reqres.in",
-  //     "password": "cityslicka"
+  //     eve.holt@reqres.in
+  //      cityslicka
   // }
 
-  function postAction() {
-    let errors = {};
-    if (!formData.email || !formData.password) {
-      setVatError({...vatError, mensaje: 'No empty spaces'});
-      if (!formData.email) errors.email = true;
-      if (!formData.password) errors.password = true;
-    } else if (!validateEmail(formData.email)) {
-      errors.email = true;
-      setVatError({...vatError, mensaje: 'Email error'});
-    } else if (formData.password.length < 6) {
-      errors.password = true;
-      setVatError({
-        ...vatError,
-        mensaje: 'Password must be more than 5 digits',
-      });
-    } else {
-      setVatError('');
-      const options = {
-        method: 'Post',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(formData),
-      };
-      fetch('https://reqres.in/api/login', options)
-        .then(result => {
-          return result.json();
-        })
-        .then(response => {
-          if (response.token) {
-            const data = JSON.stringify(response);
-            AsyncStorage.setItem('authToken', data);
-            navigation.replace('movies');
-          } else {
-            setVatError({...vatError, mensaje: 'Wrong username or password'});
-          }
-        });
-    }
-    setFormError(errors);
-  }
-
   return (
-    <View style={styles.container}>
-      <AnimationComponent width={200} height={200} />
-      <Text style={styles.errorMess}>{vatError.mensaje}</Text>
-      <TextInput
-        style={[styles.input, formError.email && styles.error]}
-        placeholder="email"
-        placeholderTextColor="#000"
-        underlineColorAndroid={'transparent'}
-        onChange={e => setFormData({...formData, email: e.nativeEvent.text})}
-      />
-      <TextInput
-        style={[styles.input, formError.password && styles.error]}
-        placeholder="password"
-        placeholderTextColor="#000"
-        secureTextEntry={true}
-        underlineColorAndroid={'transparent'}
-        onChange={e => setFormData({...formData, password: e.nativeEvent.text})}
-        onSubmitEditing={() => postAction()}
-      />
-      <TouchableOpacity style={styles.btn} onPress={postAction}>
-        <Text style={styles.btnText}>Login</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" />
+
+      <View style={styles.logo}>
+        <AnimationComponent imgName="mov" width={150} height={150} />
+      </View>
+      <Text style={styles.errorMess}>{error}</Text>
+      <View>
+        <TextInput
+          style={[styles.input]}
+          placeholder="email"
+          placeholderTextColor="#000"
+          underlineColorAndroid={'transparent'}
+          onChange={e => setEmail(e.nativeEvent.text)}
+        />
+        <TextInput
+          style={[styles.input]}
+          placeholder="password"
+          placeholderTextColor="#000"
+          secureTextEntry={true}
+          underlineColorAndroid={'transparent'}
+          onChange={e => setPassword(e.nativeEvent.text)}
+          onSubmitEditing={() => postAction()}
+        />
+        <TouchableOpacity style={styles.btn} onPress={() => postAction()}>
+          <Text style={styles.btnText}>Login</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: '#141E61',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  logo: {
-    width: '50%',
-    height: '50%',
-    marginTop: -250,
-    marginBottom: -50,
-  },
+  logo: {},
   errorMess: {
     color: '#D61C4E',
     fontSize: 15,
@@ -107,21 +67,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
-    width: '85%',
-    height: 40,
-    margin: 12,
-    borderWidth: 0.5,
-    padding: 10,
+    width: 300,
+    height: 45,
+    marginTop: 20,
+    padding: 5,
+    fontSize: 16,
     backgroundColor: '#fff',
-    color: '#000',
+    borderRadius: 5,
   },
   btn: {
-    marginTop: 15,
+    width: 300,
+    marginTop: 27,
     backgroundColor: '#14C38E',
-    width: '85%',
-    height: 40,
+    height: 45,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 5,
   },
   btnText: {
     color: '#fff',

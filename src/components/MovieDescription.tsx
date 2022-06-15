@@ -1,8 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {map} from 'lodash';
+import {MovieAllData} from '../interfaces/moviesInterface';
 
-export default function MovieDescription(props) {
+interface Props {
+  movie: MovieAllData;
+}
+
+export default function MovieDescription(props: Props) {
   const {movie} = props;
 
   return (

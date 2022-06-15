@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   ScrollView,
   SafeAreaView,
@@ -7,62 +7,61 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
-import {getMovieByIdApi, getRelatedMoviesApi} from '../../api/api';
-import {map} from 'lodash';
 import MovieImage from '../../components/MovieImage';
 import MovieDescription from '../../components/MovieDescription';
-import RenderMovies from '../../components/RenderMovies';
+import useDetail from '../../hooks/useDetail';
+import MovieList from '../../components/MovieList';
+import BackButton from '../../components/BackButton';
+import AnimationComponent from '../../components/AnimationComponent';
 
-export default function MovieData(props) {
-  const {route, navigation} = props;
-  const {id} = route.params;
-  const [movie, setMovie] = useState({});
-  const [related, setRelated] = useState(null);
+export default function MovieData({route}: any) {
+  const {isLoading, movieDetails, relatedMovies} = useDetail(route.params);
 
-  useEffect(() => {
-    getMovieByIdApi(id).then(response => {
-      setMovie(response);
-    });
-  }, []);
-
-  useEffect(() => {
-    getRelatedMoviesApi(id).then(response => {
-      setRelated(response.results);
-    });
-  }, []);
-
-  if (!movie) {
-    return null;
+  if (isLoading) {
+    return (
+      <View style={styles.indicator}>
+        <AnimationComponent imgName="loading" width={300} height={300} />
+      </View>
+    );
   }
-  if (!related) {
-    return null;
-  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-        <MovieImage movie={movie} />
+      <ScrollView
+        style={styles.containerScroll}
+        showsVerticalScrollIndicator={false}>
+        <MovieImage movie={movieDetails} />
         <View>
-          <MovieDescription movie={movie} />
+          <MovieDescription movie={movieDetails!} />
         </View>
         <View style={styles.relatedMoviesContainer}>
-          <Text style={styles.relatedTopic}>RELATED MOVIES</Text>
-          <View style={styles.containerRelated}>
-            {map(related, (relateds, index) => (
-              <RenderMovies
-                key={index}
-                movie={relateds}
-                navigation={navigation}
-              />
-            ))}
-          </View>
+          <Text style={styles.relatedTopic}>SIMILAR MOVIES</Text>
+        </View>
+        <View style={styles.containerRelated}>
+          {relatedMovies.map(value => (
+            <MovieList
+              key={value.id.toString() + value.vote_count.toString}
+              movie={value}
+            />
+          ))}
         </View>
       </ScrollView>
+      <BackButton />
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
+  indicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#141E61',
+  },
   container: {
+    backgroundColor: '#141E61',
+  },
+  containerScroll: {
     backgroundColor: '#141E61',
   },
   relatedMoviesContainer: {

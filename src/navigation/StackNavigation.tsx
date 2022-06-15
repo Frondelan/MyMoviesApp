@@ -22,18 +22,12 @@ export default function StackNavigation() {
         <Stack.Screen
           name="login"
           component={Login}
-          options={{title: 'Login'}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="movies"
           component={Movies}
-          options={{
-            title: 'MyMovieApp',
-            headerTintColor: '#fff',
-            headerStyle: {
-              backgroundColor: '#14C38E',
-            },
-          }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="movieData"

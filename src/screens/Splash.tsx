@@ -1,30 +1,20 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect} from 'react';
 import {View, StatusBar, StyleSheet} from 'react-native';
 import {LogBox} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import AnimationComponent from '../components/AnimationComponent';
 LogBox.ignoreLogs(['ViewPropTypes will be removed']);
 
-export default function Splash(props) {
+export default function Splash(props: any) {
   const {navigation} = props;
-  const [authLoaded, setAuthLoaded] = useState(false);
-  const [vat, setVat] = useState();
+  const [authLoaded, setAuthLoaded] = useState<boolean>(false);
+  const [vat, setVat] = useState<string | null>('');
 
   useEffect(() => {
     setTimeout(() => {
       getTokenValue();
     }, 2300);
   }, []);
-
-  useEffect(() => {
-    if (authLoaded) {
-      if (vat) {
-        navigation.replace('movies');
-      } else {
-        navigation.replace('login');
-      }
-    }
-  }, [authLoaded, navigation]);
 
   const getTokenValue = () => {
     AsyncStorage.getItem('authToken').then(value => {
@@ -34,10 +24,20 @@ export default function Splash(props) {
     });
   };
 
+  useEffect(() => {
+    if (authLoaded) {
+      if (vat) {
+        navigation.replace('movies');
+      } else {
+        navigation.replace('login');
+      }
+    }
+  }, [authLoaded]);
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <AnimationComponent width={300} height={300} />
+      <AnimationComponent imgName="mov" width={300} height={300} />
     </View>
   );
 }

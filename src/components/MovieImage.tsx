@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Image, StyleSheet} from 'react-native';
 import {BASE_PATH_IMG} from '../utils/constants';
 
-export default function MovieImage(props) {
+export default function MovieImage(props: any) {
   const {movie} = props;
   const mvPath = movie.poster_path;
 
