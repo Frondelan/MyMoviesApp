@@ -13,7 +13,7 @@ export default function useLogin() {
     passwordError: false,
   });
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
   const postAction = () => {
     if (email === '' || password === '') {

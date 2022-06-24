@@ -32,6 +32,7 @@ export default function Splash(props: any) {
         navigation.replace('login');
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authLoaded]);
 
   return (

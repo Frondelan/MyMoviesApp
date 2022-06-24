@@ -31,6 +31,7 @@ export default function Movies() {
       </View>
       <SearchComponent />
       <View style={styles.containerMovies}>
+        <Text style={styles.MovieTopic}>Popular Movies</Text>
         <RenderMovies movie={popular} />
       </View>
     </SafeAreaView>
@@ -62,5 +63,12 @@ const styles = StyleSheet.create({
   containerMovies: {
     flex: 1,
     marginTop: 20,
+  },
+  MovieTopic: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 22,
+    marginLeft: 20,
+    marginBottom: 20,
   },
 });
