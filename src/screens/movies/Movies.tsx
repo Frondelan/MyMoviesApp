@@ -27,7 +27,7 @@ export default function Movies() {
     <SafeAreaView style={styles.containerT}>
       <StatusBar barStyle="light-content" />
       <View style={styles.header}>
-        <Text style={styles.headerTopic}>My Movie App</Text>
+        <Text style={styles.headerTopic}>My Movies</Text>
       </View>
       <SearchComponent />
       <View style={styles.containerMovies}>
