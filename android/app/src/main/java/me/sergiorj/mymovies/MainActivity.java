@@ -1,4 +1,4 @@
-package com.awesometsproject;
+package me.sergiorj.mymovies;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
