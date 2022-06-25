@@ -5,7 +5,7 @@ import StackNavigation from './src/navigation/StackNavigation';
 export default function App() {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" backgroundColor="#141E61" />
       <StackNavigation />
     </>
   );

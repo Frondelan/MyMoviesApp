@@ -7,7 +7,7 @@ export default function SearchComponent() {
   const [textSearch, setTextSearch] = useState<string>('');
   const [error, setError] = useState(false);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
   useEffect(() => {
     setError(false);
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
+    color: '#000',
     width: '82%',
     height: 45,
     marginTop: 20,

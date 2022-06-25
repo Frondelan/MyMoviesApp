@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  ScrollView,
-  SafeAreaView,
-  StatusBar,
-  View,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import {ScrollView, SafeAreaView, View, Text, StyleSheet} from 'react-native';
 import MovieImage from '../../components/MovieImage';
 import MovieDescription from '../../components/MovieDescription';
 import useDetail from '../../hooks/useDetail';
@@ -27,7 +20,6 @@ export default function MovieData({route}: any) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
       <ScrollView
         style={styles.containerScroll}
         showsVerticalScrollIndicator={false}>

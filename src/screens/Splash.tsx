@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect} from 'react';
-import {View, StatusBar, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {LogBox} from 'react-native';
 import AnimationComponent from '../components/AnimationComponent';
 LogBox.ignoreLogs(['ViewPropTypes will be removed']);
@@ -37,7 +37,6 @@ export default function Splash(props: any) {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
       <AnimationComponent imgName="mov" width={300} height={300} />
     </View>
   );

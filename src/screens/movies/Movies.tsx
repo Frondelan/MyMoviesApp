@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  Text,
-  StatusBar,
-  Platform,
-} from 'react-native';
+import {StyleSheet, View, SafeAreaView, Text, Platform} from 'react-native';
 import AnimationComponent from '../../components/AnimationComponent';
 import RenderMovies from '../../components/RenderMovies';
 import SearchComponent from '../../components/SearchComponent';
@@ -25,7 +18,6 @@ export default function Movies() {
 
   return (
     <SafeAreaView style={styles.containerT}>
-      <StatusBar barStyle="light-content" />
       <View style={styles.header}>
         <Text style={styles.headerTopic}>My Movies</Text>
       </View>

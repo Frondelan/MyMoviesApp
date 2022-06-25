@@ -5,10 +5,9 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  StatusBar,
+  Image,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import AnimationComponent from '../components/AnimationComponent';
 import useLogin from '../hooks/useLogin';
 
 export default function Login() {
@@ -21,26 +20,27 @@ export default function Login() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
-
-      <View style={styles.logo}>
-        <AnimationComponent imgName="mov" width={150} height={150} />
+      <View style={styles.imgContainer}>
+        <Image
+          style={styles.logo}
+          source={require('../assets/logo/logo.png')}
+        />
       </View>
       <Text style={styles.errorMess}>{error}</Text>
       <View>
         <TextInput
-          style={[styles.input]}
+          style={styles.input}
           placeholder="email"
           placeholderTextColor="#000"
-          underlineColorAndroid={'transparent'}
+          underlineColorAndroid="transparent"
           onChange={e => setEmail(e.nativeEvent.text)}
         />
         <TextInput
-          style={[styles.input]}
+          style={styles.input}
           placeholder="password"
           placeholderTextColor="#000"
           secureTextEntry={true}
-          underlineColorAndroid={'transparent'}
+          underlineColorAndroid="transparent"
           onChange={e => setPassword(e.nativeEvent.text)}
           onSubmitEditing={() => postAction()}
         />
@@ -59,7 +59,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  logo: {},
+  imgContainer: {
+    marginTop: -100,
+  },
+  logo: {
+    justifyContent: 'center',
+    width: 170,
+    height: 170,
+  },
   errorMess: {
     color: '#D61C4E',
     fontSize: 15,
@@ -67,6 +74,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
+    color: '#000',
     width: 300,
     height: 45,
     marginTop: 20,

@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  StatusBar,
-  Text,
-  View,
-  ScrollView,
-  SafeAreaView,
-} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, SafeAreaView} from 'react-native';
 import useSearch from '../../hooks/useSearch';
 import MovieList from '../../components/MovieList';
 import BackButton from '../../components/BackButton';
@@ -26,7 +19,6 @@ export default function SearchMovie(props: any) {
   }
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <StatusBar barStyle="light-content" />
       <View style={styles.header}>
         <Text style={styles.topic}>{route.params}</Text>
       </View>

@@ -10,7 +10,7 @@ interface Props {
 
 export default function MovieList(props: Props) {
   const {movie} = props;
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
   return (
     <TouchableOpacity
