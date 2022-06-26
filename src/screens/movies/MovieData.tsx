@@ -27,9 +27,11 @@ export default function MovieData({route}: any) {
         <View>
           <MovieDescription movie={movieDetails!} />
         </View>
-        <View style={styles.relatedMoviesContainer}>
-          <Text style={styles.relatedTopic}>SIMILAR MOVIES</Text>
-        </View>
+        {relatedMovies.length > 0 && (
+          <View style={styles.relatedMoviesContainer}>
+            <Text style={styles.relatedTopic}>SIMILAR MOVIES</Text>
+          </View>
+        )}
         <View style={styles.containerRelated}>
           {relatedMovies.map(value => (
             <MovieList

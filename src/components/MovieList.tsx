@@ -19,7 +19,11 @@ export default function MovieList(props: Props) {
       onPress={() => navigation.push('movieData', movie.id)}>
       <Image
         style={styles.image}
-        source={{uri: `${BASE_PATH_IMG}/w500${movie.poster_path}`}}
+        source={
+          movie.poster_path
+            ? {uri: `${BASE_PATH_IMG}/w500${movie.poster_path}`}
+            : require('../assets/images/404.png')
+        }
       />
       <View style={styles.textMov}>
         <Text style={styles.textTitle}>{movie.title}</Text>
@@ -45,7 +49,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '47%',
-    height: '100%',
+    height: 290,
     marginHorizontal: 10,
   },
   textMov: {

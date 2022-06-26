@@ -13,7 +13,11 @@ export default function MovieImage(props: any) {
     <View>
       <Image
         style={styles.poster}
-        source={{uri: `${BASE_PATH_IMG}/w500${mvPath}`}}
+        source={
+          mvPath
+            ? {uri: `${BASE_PATH_IMG}/w500${mvPath}`}
+            : require('../assets/images/404Header.png')
+        }
       />
     </View>
   );

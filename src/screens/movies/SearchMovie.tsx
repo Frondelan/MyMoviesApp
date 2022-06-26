@@ -20,7 +20,9 @@ export default function SearchMovie(props: any) {
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.header}>
-        <Text style={styles.topic}>{route.params}</Text>
+        <Text numberOfLines={1} adjustsFontSizeToFit style={styles.topic}>
+          {route.params}
+        </Text>
       </View>
       {noData && (
         <View style={styles.indicator2}>
