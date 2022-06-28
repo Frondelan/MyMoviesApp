@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   input: {
     color: '#000',
     width: 300,
-    height: 45,
+    height: 48,
     marginTop: 20,
     padding: 5,
     fontSize: 16,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     width: 300,
     marginTop: 27,
     backgroundColor: '#14C38E',
-    height: 45,
+    height: 48,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,

@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   btnContainer: {
-    height: 47,
+    height: 48,
     marginTop: 17,
     width: '15%',
     justifyContent: 'center',
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   input: {
     color: '#000',
     width: '82%',
-    height: 45,
+    height: 48,
     marginTop: 20,
     padding: 5,
     fontSize: 16,
